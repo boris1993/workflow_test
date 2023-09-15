@@ -19,7 +19,7 @@ jobs:
       - name: Bump version
         shell: pwsh
         run: |
-          $tag = ${{ github.ref_name }}
+          $tag = "${{ github.ref_name }}"
           $tag = $tag.substring(1)
           [xml]$manifest = Get-Content ".\Package.appxmanifest"
           $manifest.Package.Identity.Version = $tag
