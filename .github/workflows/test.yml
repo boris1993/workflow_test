@@ -1,0 +1,33 @@
+name: Test tag
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build packages
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test
+        run: |
+          echo ${{ github.ref_name }}
+          
+      - name: Bump version
+        shell: pwsh
+        run: |
+          $tag = ${{ github.ref_name }}
+          $tag = $tag.substring(1)
+          [xml]$manifest = Get-Content ".\Package.appxmanifest"
+          $manifest.Package.Identity.Version = $tag
+          $manifest.save("$pwd\Package.appxmanifest")
+      
+      - name: Push changes
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "boris1993@live.cn"
+          git commit -a -m "chore: bump version"
+          git push
