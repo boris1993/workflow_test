@@ -27,7 +27,7 @@ jobs:
       
       - name: Push changes
         run: |
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "boris1993@live.cn"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -a -m "chore: bump version"
           git push origin HEAD:master
