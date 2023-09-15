@@ -27,7 +27,7 @@ jobs:
       
       - name: Push changes
         run: |
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.name "${{ github.event.pull_request.user.login }}"
           git config --global user.email "boris1993@live.cn"
           git commit -a -m "chore: bump version"
-          git push
+          git push origin HEAD:master
